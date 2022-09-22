@@ -46,4 +46,23 @@ if __name__ == '__main__':
     # y verifique si los primeros usuarios (mirando la página a ojo)
     # los datos recolectados son correctos.
 
+    datos_recolectados = requests.get(url)
+    datos = datos_recolectados.json()
+
+    lista_userId = [x['userId'] for x in datos if x.get('completed') is True]
+    eje_x = list(set(lista_userId))
+
+    lista_suma = [lista_userId.count(x) for x in lista_userId]
+    eje_y =[lista_suma[i] for i in range(len(lista_suma)) if lista_suma[i] != lista_suma[i-1]]
+
+    fig = plt.figure()
+    fig.suptitle('Libros completados', fontsize=16)
+    ax = fig.add_subplot()
+
+    ax.bar(eje_x, eje_y, label='UserId')
+    ax.set_facecolor('whitesmoke')
+    ax.legend()
+    plt.show()
+   
+
     print("terminamos")
